@@ -19,8 +19,6 @@ int main(int argc, char *argv[])
        int fd[2];                                        /* Two ends of the pipe */
        char *lhs = NULL;                                 /* Left hand side command of the pipe */
        char *rhs = NULL;                                 /* Right hand side command of the pipe */
-       char *lhscommand = "ls";                          /* Default command name on left hand side of pipe */
-       char *rhscommand = "sort";                        /* Default command name on right hand side of pipe */
        char *lhsargs[MAX_NUM_ARGS] = {"ls", "-l", NULL}; /* Default LHS args */
        char *rhsargs[MAX_NUM_ARGS] = {"sort", NULL};     /* Default RHS args */
 
@@ -30,7 +28,8 @@ int main(int argc, char *argv[])
        {
               char *input = argv[1];
 
-              if ((lhs = strsep(&input, "|")) == NULL || (rhs = strsep(&input, "|")) == NULL){
+              if ((lhs = strsep(&input, "|")) == NULL || (rhs = strsep(&input, "|")) == NULL)
+              {
                      printf("Usage:\n");
                      printf("./mypipe [\"<LHS-command>|<RHS-command>\"]\n");
                      exit(1);
@@ -38,7 +37,8 @@ int main(int argc, char *argv[])
 
               char *t;
               int i = 0;
-              while ((t = strsep(&lhs, " ")) != NULL){
+              while ((t = strsep(&lhs, " ")) != NULL)
+              {
                      if (*t != '\0')
                      {
                             lhsargs[i++] = t;
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
               close(fd[0]);
 
               execvp(rhsargs[0], rhsargs);
-              perror("execvp");
+              perror("execvp error");
               exit(1);
        }
        return 0;
